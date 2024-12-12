@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.Scanner;
+class dist_vec
+{
+public static void main(String args[])
+{
+int dmat[][];
+int dist[][];
+int via[][];
+int n=0,i=0,j=0,k=0,count=0;
+Scanner in = new Scanner(System.in);
+System.out.println(&quot;enter the number of nodes\n&quot;);
+n = in.nextInt();
+dmat = new int[n][n];
+dist = new int[n][n];
+via = new int[n][n];
+System.out.println(&quot;enter the cost matrix\n&quot;);
+for(i=0;i&lt;n;i++)
+for(j=0;j&lt;n;j++)
+{
+dmat[i][j] = in.nextInt();
+dmat[i][i]=0;
+dist[i][j]=dmat[i][j];
+via[i][j]=j;
+}
+do
+{
+count=0;
+for(i=0;i&lt;n;i++)
+for(j=0;j&lt;n;j++)
+for(k=0;k&lt;n;k++)
+if(dist[i][j]&gt;dmat[i][k]+dist[k][j])
+{
+dist[i][j]=dist[i][k]+dist[k][j];
+via[i][j]=k;
+count++;
+}
+}while(count!=0);
+for(i=0;i&lt;n;i++)
+{
+System.out.println(&quot;state value for router&quot;+i+&quot; is&quot;);
+for(j=0;j&lt;n;j++)
+{
+System.out.println(&quot;To &quot;+j+&quot; -Via &quot;+via[i][j]+&quot; distance is &quot;+dist[i][j]);
+}
+}
+}
+}
