@@ -1,0 +1,54 @@
+Server Program
+
+import java.io.*;
+import java.net.*;
+class UDPServer
+{
+public static void main(String args[]) throws Exception
+{
+DatagramSocketserverSocket = new DatagramSocket(9876);
+BufferedReaderbr = new BufferedReader(new InputStreamReader(System.in));
+byte[] receiveData = new byte[1024];
+byte[] sendData = new byte[1024];
+
+DatagramPacketreceivePacket = new DatagramPacket(receiveData, receiveData.length);
+serverSocket.receive(receivePacket);
+String sentence = new String( receivePacket.getData());
+System.out.println(&quot;RECEIVED: &quot; + sentence);
+InetAddressIPAddress = receivePacket.getAddress();
+int port = receivePacket.getPort();
+System.out.println(&quot;Enter the Message&quot;);
+String data = br.readLine();
+sendData = data.getBytes();
+DatagramPacketsendPacket = new DatagramPacket(sendData, sendData.length,
+IPAddress, port);
+serverSocket.send(sendPacket);
+serverSocket.close();
+}
+}
+
+Client Program
+
+import java.io.*;
+import java.net.*;
+class UDPClient
+{
+public static void main(String args[]) throws Exception
+{
+BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+DatagramSocketclientSocket = new DatagramSocket();
+InetAddressIPAddress = InetAddress.getByName(&quot;localhost&quot;);
+byte[] sendData = new byte[1024];
+byte[] receiveData = new byte[1024];
+String sentence = &quot;Hello Server&quot;;
+sendData = sentence.getBytes();
+DatagramPacketsendPacket = new DatagramPacket(sendData, sendData.length, IPAddress,
+9876);
+clientSocket.send(sendPacket);
+DatagramPacketreceivePacket = new DatagramPacket(receiveData, receiveData.length);
+clientSocket.receive(receivePacket);
+String modifiedSentence = new String(receivePacket.getData());
+System.out.println(&quot;FROM SERVER:&quot; + modifiedSentence);
+clientSocket.close();
+}
+}
